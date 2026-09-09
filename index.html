@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Eje Cafetero Recargado · Cotizador Dominick Travel</title>
+<meta name="description" content="Cotiza tu viaje al Eje Cafetero: elige la salida, la acomodación y recibe el valor exacto por persona." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ============ HEADER ============ -->
+  <header class="topbar">
+    <div class="topbar__inner">
+      <div class="brand">
+        <span class="brand__mark">✈</span>
+        <span class="brand__name">trvely</span>
+      </div>
+      <a class="topbar__cta" href="#cotizador">Cotizar ahora</a>
+    </div>
+  </header>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="hero__bg" aria-hidden="true"></div>
+    <div class="hero__inner">
+      <p class="hero__kicker">Salidas fijas desde Bogotá</p>
+      <h1 class="hero__title">Eje Cafetero<br>Recargado</h1>
+      <p class="hero__subtitle">
+        Termales de Santa Rosa, Bioparque Ukumarí, Valle del Cócora, Salento,
+        Filandia, Quimbaya y Parque del Café — todo en un solo plan.
+      </p>
+      <a href="#cotizador" class="hero__button">Ver fechas y cotizar</a>
+    </div>
+  </section>
+
+  <!-- ============ DESTINO / ITINERARIO ============ -->
+  <section class="destino" id="destino">
+    <div class="destino__inner">
+      <div class="destino__col destino__col--info">
+        <h2>Lo que incluye el plan</h2>
+        <ul class="checklist" id="incluye-list"></ul>
+
+        <h3 class="destino__subtitulo">Lo que no incluye</h3>
+        <ul class="checklist checklist--no" id="no-incluye-list"></ul>
+      </div>
+
+      <div class="destino__col destino__col--itinerario">
+        <h2>Itinerario</h2>
+        <ol class="itinerario" id="itinerario-list"></ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ COTIZADOR ============ -->
+  <section class="cotizador" id="cotizador">
+    <div class="cotizador__inner">
+
+      <div class="ticket">
+        <div class="ticket__header">
+          <div>
+            <p class="ticket__eyebrow">Cotizador</p>
+            <h2 class="ticket__title">Arma tu plan</h2>
+          </div>
+          <div class="ticket__stub-label">Pasajero</div>
+        </div>
+
+        <!-- perforación -->
+        <div class="perforation" aria-hidden="true"></div>
+
+        <form id="quote-form" class="ticket__body" novalidate>
+
+          <!-- Paso 1: Fecha -->
+          <div class="field-group">
+            <label for="departure">Fecha de salida</label>
+            <select id="departure" required>
+              <option value="" disabled selected>Elige una fecha fija de salida…</option>
+            </select>
+            <p class="field-hint" id="departure-nota"></p>
+          </div>
+
+          <!-- Paso 2: Pasajeros -->
+          <div class="field-group field-group--pax">
+            <div class="stepper">
+              <label>Adultos</label>
+              <div class="stepper__control">
+                <button type="button" class="stepper__btn" data-target="adults" data-delta="-1">−</button>
+                <span id="adults-value">2</span>
+                <button type="button" class="stepper__btn" data-target="adults" data-delta="1">+</button>
+              </div>
+            </div>
+            <div class="stepper">
+              <label>Niños <span class="stepper__caption">3 a 10 años</span></label>
+              <div class="stepper__control">
+                <button type="button" class="stepper__btn" data-target="kids" data-delta="-1">−</button>
+                <span id="kids-value">0</span>
+                <button type="button" class="stepper__btn" data-target="kids" data-delta="1">+</button>
+              </div>
+            </div>
+            <div class="stepper">
+              <label>Infantes <span class="stepper__caption">0 a 2 años</span></label>
+              <div class="stepper__control">
+                <button type="button" class="stepper__btn" data-target="infants" data-delta="-1">−</button>
+                <span id="infants-value">0</span>
+                <button type="button" class="stepper__btn" data-target="infants" data-delta="1">+</button>
+              </div>
+            </div>
+          </div>
+
+          <p class="field-hint">
+            La tarifa de niño o infante solo aplica si viajan acompañados de mínimo dos adultos en la misma habitación.
+          </p>
+
+          <!-- perforación -->
+          <div class="perforation" aria-hidden="true"></div>
+
+          <!-- Resultado del precio -->
+          <div class="price-panel" id="price-panel" aria-live="polite">
+            <p class="price-panel__label">Valor total del plan</p>
+            <p class="price-panel__amount" id="price-amount">Elige una fecha</p>
+            <p class="price-panel__breakdown" id="price-breakdown"></p>
+          </div>
+
+          <button type="button" id="btn-continue" class="ticket__cta" disabled>
+            Continuar con la prereserva
+          </button>
+        </form>
+      </div>
+
+      <!-- ===== Formulario de datos de contacto (paso 2) ===== -->
+      <div class="ticket ticket--contact" id="contact-ticket" hidden>
+        <div class="ticket__header">
+          <div>
+            <p class="ticket__eyebrow">Prereserva</p>
+            <h2 class="ticket__title">Tus datos de contacto</h2>
+          </div>
+          <div class="ticket__stub-label">Paso 2 de 2</div>
+        </div>
+        <div class="perforation" aria-hidden="true"></div>
+
+        <form id="contact-form" class="ticket__body" novalidate>
+          <div class="field-group">
+            <label for="full_name">Nombre completo *</label>
+            <input type="text" id="full_name" required autocomplete="name" />
+          </div>
+          <div class="field-group">
+            <label for="document_id">Documento de identidad *</label>
+            <input type="text" id="document_id" required />
+          </div>
+          <div class="field-row">
+            <div class="field-group">
+              <label for="email">Correo electrónico *</label>
+              <input type="email" id="email" required autocomplete="email" />
+            </div>
+            <div class="field-group">
+              <label for="phone">Celular / WhatsApp *</label>
+              <input type="tel" id="phone" required autocomplete="tel" />
+            </div>
+          </div>
+          <div class="field-group">
+            <label for="emergency_contact">Contacto de emergencia (nombre y teléfono) *</label>
+            <input type="text" id="emergency_contact" required />
+          </div>
+          <div class="field-group">
+            <label for="special_requests">Solicitudes especiales (dieta, movilidad, medicamentos…)</label>
+            <textarea id="special_requests" rows="2"></textarea>
+          </div>
+
+          <label class="checkbox-line">
+            <input type="checkbox" id="accept_policy" required />
+            Acepto las políticas de reservas, pagos y cancelaciones de Dominick Travel.
+          </label>
+
+          <div class="ticket__actions">
+            <button type="button" id="btn-back" class="ticket__cta ticket__cta--ghost">Volver</button>
+            <button type="submit" id="btn-submit" class="ticket__cta">Enviar prereserva</button>
+          </div>
+          <p class="form-error" id="form-error" role="alert"></p>
+        </form>
+      </div>
+
+      <!-- ===== Confirmación ===== -->
+      <div class="ticket ticket--done" id="done-ticket" hidden>
+        <div class="done-icon">✓</div>
+        <h2>¡Tu prereserva fue generada!</h2>
+        <p>
+          Te enviamos un correo con el resumen. Nuestro equipo debe confirmar
+          disponibilidad con el operador; en cuanto la confirmemos, recibirás
+          un segundo correo con los medios de pago.
+        </p>
+        <p class="done-ref">N.º de solicitud: <strong id="done-ref-code">—</strong></p>
+        <button type="button" id="btn-new-quote" class="ticket__cta ticket__cta--ghost">Hacer otra cotización</button>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>Dominick Travel · Agencia y operador turístico · RNT 24117</p>
+    <p>Cotizaciones: 302 475 4841 · reservas@dominicktravel.com</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+  <script src="config.js"></script>
+  <script src="data.js"></script>
+  <script src="app.js" defer></script>
+</body>
+</html>
